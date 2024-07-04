@@ -1,0 +1,78 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+Бронирование
+{% endblock %}
+
+{% block content %}
+    <h1 style="color: white">Бронирование</h1>
+    <form style="color: white" method="post" action="{% url 'booking' %}">
+        {% csrf_token %}
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                {{ form.titleB.label_tag }} {{ form.titleB }}
+            </div>
+            <div class="form-group col-md-6">
+                {{ form.guest.label_tag }} {{ form.guest }}
+            </div>
+        </div>
+        <div class="form-row">
+            <div class="form-group col-md-6">
+                {{ form.begin_date.label_tag }} {{ form.begin_date }}
+            </div>
+            <div class="form-group col-md-6">
+                {{ form.end_date.label_tag }} {{ form.end_date }}
+            </div>
+        </div>
+        {% if form.errors %}
+            <div class="alert alert-danger">
+                <ul>
+                {% for field in form %}
+                    {% for error in field.errors %}
+                        <li>{{ error }}</li>
+                    {% endfor %}
+                {% endfor %}
+                {% for error in form.non_field_errors %}
+                    <li>{{ error }}</li>
+                {% endfor %}
+                </ul>
+            </div>
+        {% endif %}
+        <button type="submit" class="btn btn-success">Добавить</button>
+    </form>
+    <br>
+
+    <div style=" background-color: rgba(255, 255, 255, 0.8);" class="card card-body">
+        <form method="get">
+            <h4>Поиск по категориям</h4>
+            <div style="display: flex; justify-content: space-between;">
+                <div style="flex: 1;">
+                    {{ FilterBooking.form.titleB.label_tag }} {{ FilterBooking.form.titleB }}
+                </div>
+                <div style="flex: 1;">
+                    {{ FilterBooking.form.guest.label_tag }} {{ FilterBooking.form.guest }}
+                </div>
+            </div>
+            <br>
+            <div style="display: flex; justify-content: space-between;">
+                <div style="flex: 1;">
+                    {{ FilterBooking.form.begin_date.label_tag }} {{ FilterBooking.form.begin_date }}
+                </div>
+                <div style="flex: 1;">
+                    {{ FilterBooking.form.end_date.label_tag }} {{ FilterBooking.form.end_date }}
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Поиск</button>
+        </form>
+    </div>
+
+{#            <p>Номер: {{  }} Гость: {{  }}</p>#}
+{#            <p>Дата начала брони: {{  }} Дата окнчания брони: {{  }}</p>#}
+{##}
+{#            <button class="btn btn-primary" type="submit">Найти</button>#}
+{#        </form>#}
+{#    </div>#}
+    <br>
+    {% load render_table from django_tables2 %}
+    {% render_table table %}
+{% endblock %}

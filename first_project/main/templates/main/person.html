@@ -1,0 +1,88 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+Гости
+{% endblock %}
+
+{% block content %}
+    <h1 style="color: white">Гости</h1>
+{#    <form method="post" action="{% url 'person_list' %}" id="my-form">#}
+    <form style="color: white" method="post" action="{% url 'person' %}" id="my-form">
+        {% csrf_token %}
+        <div class="form-group">
+            <label for="{{ form.name.id_for_label }}">Введите ФИО</label>
+            {{ form.name }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.birth_date.id_for_label }}">Введите дату рождения</label>
+            {{ form.birth_date }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.sex.id_for_label }}">Выберите пол</label>
+            {{ form.sex }}
+        </div>
+        <div class="form-group">
+            {{ form.passport.label_tag }}
+            {{ form.passport }}
+            {% if form.passport.errors %}
+                <div class="alert alert-danger">
+                    {% for error in form.passport.errors %}
+                        <p>{{ error }}</p>
+                    {% endfor %}
+                </div>
+            {% endif %}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.status.id_for_label }}">Укажите статус</label>
+            {{ form.status }}
+        </div>
+        <div class="form-group">
+            <label for="{{ form.species.id_for_label }}">Введите особенности</label>
+            {{ form.species }}
+        </div>
+        <button type="submit" class="btn btn-success">Добавить</button>
+
+    </form>
+{#    </form>#}
+    <br>
+     <div style=" background-color: rgba(255, 255, 255, 0.8);" class="card card-body">
+        <form method="get">
+            <h4>Поиск по категориям</h4>
+            <div style="display: flex; justify-content: space-between;">
+                <div style="flex: 1;">
+                    {{ FilterPerson.form.name.label_tag }} {{ FilterPerson.form.name }}
+                </div>
+                <div style="flex: 1;">
+                    {{ FilterPerson.form.birth_date.label_tag }} {{ FilterPerson.form.birth_date }}
+                </div>
+                <div style="flex: 1;">
+                    {{ FilterPerson.form.sex.label_tag }} {{ FilterPerson.form.sex }}
+                </div>
+            </div>
+            <br>
+            <div style="display: flex; justify-content: space-between;">
+                <div style="flex: 1;">
+                    {{ FilterPerson.form.passport.label_tag }} {{ FilterPerson.form.passport }}
+                </div>
+                <div style="flex: 1;">
+                    {{ FilterPerson.form.status.label_tag }} {{ FilterPerson.form.status }}
+                </div>
+                <div style="flex: 1;">
+                    {{ FilterPerson.form.species.label_tag }} {{ FilterPerson.form.species }}
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Поиск</button>
+        </form>
+    </div>
+
+{#    <div class="card card-body">#}
+{#        <form method="get">#}
+{#            <a>Поиск по категориям</a>#}
+{#            {{ FilterPerson.form }}#}
+{#            <button class="btn btn-primary" type="submit">Найти</button>#}
+{#        </form>#}
+{#    </div>#}
+    <br>
+    {% load render_table from django_tables2 %}
+    {% render_table table %}
+{% endblock %}

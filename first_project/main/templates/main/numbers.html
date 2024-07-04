@@ -1,0 +1,39 @@
+{% extends 'main/base.html' %}
+
+{% block title %}
+Главная страница
+{% endblock %}
+
+{% block content %}
+    <h1 style="color: white" > Номера гостиницы </h1>
+
+    <br>
+
+    <div style=" background-color: rgba(255, 255, 255, 0.8);" class="card card-body">
+        <form method="get">
+            <h4>Поиск по категориям</h4>
+            <div style="display: flex; justify-content: space-between;">
+                <div style="flex: 1;">
+                    {{ filter.form.title.label_tag }} {{ filter.form.title }}
+                </div>
+                <div style="flex: 1;">
+                    {{ filter.form.room_type.label_tag }} {{ filter.form.room_type }}
+                </div>
+            </div>
+            <br>
+            <div style="display: flex; justify-content: space-between;">
+                <div style="flex: 1;">
+                    {{ filter.form.count_person.label_tag }} {{ filter.form.count_person }}
+                </div>
+                <div style="flex: 1;">
+                    {{ filter.form.status.label_tag }} {{ filter.form.status }}
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Поиск</button>
+        </form>
+    </div>
+
+    <br>
+    {% load render_table from django_tables2 %}
+    {% render_table table %}
+{% endblock %}
